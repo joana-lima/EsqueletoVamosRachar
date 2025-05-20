@@ -8,17 +8,28 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import java.util.*
 
 class MainActivity : AppCompatActivity() , TextWatcher, TextToSpeech.OnInitListener {
     private lateinit var tts: TextToSpeech
     private lateinit var edtConta: EditText
-    private var ttsSucess: Boolean = false;
+    private lateinit var edtQuant: EditText
+    private lateinit var textView: TextView
+    private var ttsSucess: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // componentes da tela
         edtConta = findViewById<EditText>(R.id.edtConta)
+        edtQuant = findViewById<EditText>(R.id.edtQuant)
+        textView = findViewById<TextView>(R.id.textView)
+
+        // listeners
         edtConta.addTextChangedListener(this)
+        edtQuant.addTextChangedListener(this)
+
         // Initialize TTS engine
         tts = TextToSpeech(this, this)
 
@@ -53,10 +64,12 @@ class MainActivity : AppCompatActivity() , TextWatcher, TextToSpeech.OnInitListe
             Log.d ("PDM23", tts.language.toString())
             tts.speak("Oi Sumido", TextToSpeech.QUEUE_FLUSH, null, null)
         }
+    }
 
-
-
-
+    fun clickLimpar(v: View) {
+        edtConta.setText("")
+        edtQuant.setText("")
+        textView.text = "Vamos Rachar!"
     }
     override fun onDestroy() {
             // Release TTS engine resources

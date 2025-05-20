@@ -36,23 +36,22 @@ class MainActivity : AppCompatActivity() , TextWatcher, TextToSpeech.OnInitListe
     }
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-       Log.d("PDM24","Antes de mudar")
-
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        Log.d("PDM24","Mudando")
     }
 
     override fun afterTextChanged(s: Editable?) {
-        Log.d ("PDM24", "Depois de mudar")
-
         val valor: Double
+        val quant: Double
 
-        if(s.toString().length>0) {
-             valor = s.toString().toDouble()
-            Log.d("PDM24", "v: " + valor)
-        //    edtConta.setText("9")
+        if (!edtConta.text.isNullOrBlank() && !edtQuant.text.isNullOrBlank()) {
+            valor = edtConta.text.toString().toDouble()
+            quant = edtQuant.text.toString().toDouble()
+            textView.text = (valor / quant).toString()
+        }
+        else {
+            textView.text = "Vamos Rachar!"
         }
     }
 
@@ -61,8 +60,15 @@ class MainActivity : AppCompatActivity() , TextWatcher, TextToSpeech.OnInitListe
             tts.stop()
         }
         if(ttsSucess) {
-            Log.d ("PDM23", tts.language.toString())
-            tts.speak("Oi Sumido", TextToSpeech.QUEUE_FLUSH, null, null)
+            var fala: String
+            if (!textView.text.toString().isNullOrEmpty() && !textView.text.toString().equals("Vamos Rachar!")) {
+                fala = "A parte de cada um é " + textView.text + " reais"
+                tts.speak(fala, TextToSpeech.QUEUE_FLUSH, null, null)
+            }
+            else {
+                fala = "Preencha um valor de conta e quantidade de pessoas"
+                tts.speak(fala, TextToSpeech.QUEUE_FLUSH, null, null)
+            }
         }
     }
 
@@ -71,6 +77,7 @@ class MainActivity : AppCompatActivity() , TextWatcher, TextToSpeech.OnInitListe
         edtQuant.setText("")
         textView.text = "Vamos Rachar!"
     }
+
     override fun onDestroy() {
             // Release TTS engine resources
             tts.stop()

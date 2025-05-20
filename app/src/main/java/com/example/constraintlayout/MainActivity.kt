@@ -1,5 +1,6 @@
 package com.example.constraintlayout
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
@@ -76,6 +77,21 @@ class MainActivity : AppCompatActivity() , TextWatcher, TextToSpeech.OnInitListe
         edtConta.setText("")
         edtQuant.setText("")
         textView.text = "Vamos Rachar!"
+    }
+
+    fun share(v: View) {
+        if (!textView.text.toString().isNullOrEmpty() && !textView.text.toString().equals("Vamos Rachar!")) {
+            var shareText: String
+            shareText = "Oi, o total da sua parte da conta é " + textView.text + " reais! Sent via Vamos Rachar!"
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, shareText)
+                type = "text/plain"
+            }
+
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+        }
     }
 
     override fun onDestroy() {

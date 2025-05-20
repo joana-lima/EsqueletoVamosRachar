@@ -53,6 +53,7 @@
         android:layout_marginBottom="83dp"
         android:clickable="true"
         android:importantForAccessibility="no"
+        android:onClick="share"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLimpar"
